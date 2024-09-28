@@ -22,3 +22,36 @@ Constraints:
 word1 and word2 consist only of lowercase English letters.
 
 *---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
+                                                                                            SOLUTION
+
+//user defined functioon =
+bool over(vector<string> curr, vector<string> req){
+  for(int i =0 ; i<26 ; i++){
+    if(req[i] > curr[i]) // our current window doesnt have all word1 words;
+        return false;
+    }
+    return true;
+}
+//given function                                                                               
+ long long validSubstringCount(string word1, string word2){
+
+  vector<int> req(26);
+  vector<int> curr(26);
+
+//to store words that has to be made as prefix;  
+for(char word: word2)  req[word-'a']++;
+
+int right =0;//sliding window position
+for(int i =0 ; i<word1.size(); i++){
+      while(right<word1.size() && over(curr, req)== false){
+      curr[word1[right]]++;
+      right++;
+      }
+      // current window has all elements of prefix
+      // shrink the window size 
+      if(over(curr, req)== true)      //current window contains all elements of prefix
+      ans+= word1.size()+1 - right+1;    //count all possible substrings with current window size.
+
+      curr[word1[i]] --; // shrinking the window size ;
+}
+return ans;
